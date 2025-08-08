@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For Naola</title>
+    <style>
+        body {
+            background: #fff5f9;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            padding-top: 50px;
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Login Container */
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .login-container h2 {
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        #name-input {
+            padding: 12px 15px;
+            border: 2px solid #ff85a2;
+            border-radius: 25px;
+            font-size: 16px;
+            width: 80%;
+            margin-bottom: 15px;
+            text-align: center;
+            outline: none;
+        }
+
+        #login-button {
+            background: #ff85a2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(255, 133, 162, 0.3);
+            transition: all 0.3s;
+        }
+
+        #login-button:hover {
+            background: #ff6b8b;
+            transform: translateY(-2px);
+        }
+
+        #error-message {
+            color: #e91e63;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Content Container (hidden by default) */
+        .content-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .bunga {
+            font-size: 100px;
+            animation: putar 8s infinite linear;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes putar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            margin-top: 30px;
+            font-size: 24px;
+            color: #d23669;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 134, 162, 0.6);
+            animation: float 10s linear infinite;
+            opacity: 0;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Confession Container (hidden by default) */
+        .confession-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .confession-text {
+            font-size: 28px;
+            color: #e91e63;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .response-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .response-button {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        #yes-button {
+            background: #4CAF50;
+            color: white;
+        }
+
+        #no-button {
+            background: #f44336;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="login-container">
+        <h2>Masukkan Nama Anda</h2>
+        <input type="text" id="name-input" placeholder="Ketik nama di sini">
+        <p id="error-message">Nama tidak sesuai</p>
+        <button id="login-button" onclick="checkName()">Masuk</button>
+    </div>
+
+    <!-- Flower Content Page (hidden by default) -->
+    <div class="content-container" id="content-container">
+        <div class="bunga">🌸</div>
+        <h2>Bunga cantik buat adek yang cantik</h2>
+        
+        <div class="message">Aku Sayang Kamu</div>
+        
+        <!-- Musik -->
+        <audio id="musik" loop>
+            <source src="1831124216.mp3" type="audio/mpeg">
+        </audio>
+        
+        <button onclick="startExperience()">Putar Musik</button>
+    </div>
+
+    <!-- Confession Page (hidden by default) -->
+    <div class="confession-container" id="confession-container">
+        <div class="confession-text">Balikan yuk, hehe</div>
+        <div class="response-buttons">
+            <button id="yes-button" class="response-button" onclick="response(true)">Iya</button>
+            <button id="no-button" class="response-button" onclick="response(false)">Males</button>
+        </div>
+    </div>
+    
+    <script>
+        // Check name function
+        function checkName() {
+            const name = document.getElementById("name-input").value.trim();
+            const errorMessage = document.getElementById("error-message");
+            
+            if (name.toLowerCase() === "naola") {
+                // Hide login, show content
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("content-container").style.display = "flex";
+                
+                // Start creating hearts
+                createHearts();
+            } else {
+                // Show error
+                errorMessage.style.display = "block";
+            }
+        }
+
+        // Allow pressing Enter key
+        document.getElementById("name-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkName();
+            }
+        });
+
+        // Heart creator
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 5 + 5 + 's';
+            heart.style.fontSize = Math.random() * 15 + 10 + 'px';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+        
+        // Create hearts every 300ms
+        setInterval(createHeart, 300);
+
+        // Hide error message initially
+        document.getElementById("error-message").style.display = "none";
+
+        // Start the experience
+        function startExperience() {
+            const musik = document.getElementById("musik");
+            
+            // Play music
+            musik.play();
+            
+            // Hide the play button
+            event.target.style.display = "none";
+            
+            // Change the message
+            document.querySelector(".message").textContent = "Dengerin dulu nih";
+            
+            // After 10 seconds, show confession
+            setTimeout(() => {
+                document.getElementById("content-container").style.display = "none";
+                document.getElementById("confession-container").style.display = "flex";
+            }, 10000);
+        }
+
+        // Handle response
+        function response(accepted) {
+            const confessionText = document.querySelector(".confession-text");
+            const buttons = document.querySelector(".response-buttons");
+            
+            if (accepted) {
+                confessionText.textContent = "YESSS BALIKANNNN";
+                buttons.classList.add("hidden");
+                setTimeout(() => {
+                    confessionText.textContent = "I love you";
+                }, 3000);
+                
+                // Create more hearts
+                setInterval(createHeart, 100);
+            } else {
+                confessionText.textContent = "Ngga bisa wle, harus jawab iya";
+                buttons.classList.add("hidden");
+                
+                // Show the buttons again after 3 seconds
+                setTimeout(() => {
+                    confessionText.textContent = "Balikan yuk?";
+                    buttons.classList.remove("hidden");
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
